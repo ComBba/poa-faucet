@@ -8,8 +8,6 @@ module.exports = function (app) {
 	let cntCheck = 0;
 
 	app.post('/', async function (request, response) {
-		//console.log("REQUEST:");
-		//console.log(request.body);
 		var recaptureResponse = request.body["g-recaptcha-response"];
 		//console.log("recaptureResponse: ", recaptureResponse)
 		if (!recaptureResponse) return generateErrorResponse(response, {
@@ -84,6 +82,7 @@ module.exports = function (app) {
 		tx.sign(privateKey);
 		const serializedTx = tx.serialize();
 		web3.eth.sendRawTransaction("0x" + serializedTx.toString('hex'), (err, txHash) => {
+			cntCheck = 0;
 			if (err) {
 				console.log("sendRawTransaction", err);
 				return generateErrorResponse(response, err);
